@@ -2,14 +2,16 @@
 using System.Collections;
 
 public class EntitySpawner : MonoBehaviour {
+	
+	public Entity entity;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
 	void Update () {
-	
+		if(Input.GetKeyDown(KeyCode.X)){
+			spawnEntity();
+		}
+	}
+
+	public void spawnEntity(){
+		entity.respawn();
 	}
 }
