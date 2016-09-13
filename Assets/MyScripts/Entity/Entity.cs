@@ -8,14 +8,27 @@ public class Entity : MonoBehaviour
     public Torso torso;
 
     public Slider healthBar;
+	public float attackDelay = 1f;
+
+	public PlayerController player;
 
     private float health;
+	private bool isDead = false;
 
     public void respawn()
     {
         head.spawnRandomHead();
         torso.spawnRandomTorso();
-    }
+		StartCoroutine("keepAttacking");
+    }	
+
+	IEnumerator keepAttacking(){
+		while(!isDead){
+			torso.attack(player);
+			yield return new WaitForSeconds(attackDelay);
+		}
+		yield return null;
+	}
 
     public void damage(float amt)
     {
