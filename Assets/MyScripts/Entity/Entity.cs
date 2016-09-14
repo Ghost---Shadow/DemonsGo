@@ -8,9 +8,7 @@ public class Entity : MonoBehaviour
     public Torso torso;
 
     public Slider healthBar;
-	public float attackDelay = 1f;
-
-	public PlayerController player;
+	public float attackDelay = 2f;
 
     private float health;
 	private bool isDead = false;
@@ -24,7 +22,7 @@ public class Entity : MonoBehaviour
 
 	IEnumerator keepAttacking(){
 		while(!isDead){
-			torso.attack(player);
+			torso.attack();
 			yield return new WaitForSeconds(attackDelay);
 		}
 		yield return null;
