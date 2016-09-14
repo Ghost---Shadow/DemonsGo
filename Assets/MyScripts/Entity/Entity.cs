@@ -8,25 +8,43 @@ public class Entity : MonoBehaviour
     public Torso torso;
 
     public Slider healthBar;
-	public float attackDelay = 2f;
+
+    public PlayerController player;
+    public float attackDelay = 2f;
+    public float staggerDelay = 5f;
 
     private float health;
-	private bool isDead = false;
+    private bool isDead = false;
+
+    void OnEnable()
+    {
+        SwipeDetector.Click += hit;
+    }
+
+    void OnDisable()
+    {
+        SwipeDetector.Click -= hit;
+    }
 
     public void respawn()
     {
+        StopCoroutine("keepAttacking");
+        health = 1.0f;
         head.spawnRandomHead();
         torso.spawnRandomTorso();
-		StartCoroutine("keepAttacking");
-    }	
+        StartCoroutine("keepAttacking");
+    }
 
-	IEnumerator keepAttacking(){
-		while(!isDead){
-			torso.attack();
-			yield return new WaitForSeconds(attackDelay);
-		}
-		yield return null;
-	}
+    IEnumerator keepAttacking()
+    {
+        while (!isDead)
+        {
+            torso.attack();
+            float delay = torso.isStaggered() ? staggerDelay : attackDelay;
+            yield return new WaitForSeconds(delay);
+        }
+        yield return null;
+    }
 
     public void damage(float amt)
     {
@@ -35,6 +53,13 @@ public class Entity : MonoBehaviour
         healthBar.value = health;
         if (health == 0)
             death();
+    }
+
+    public void hit()
+    {
+        float damageTakenByTorso = Spell.getDamageTakenBy(torso.index,player.currentSpell);
+        float damageTakenByHead = Spell.getDamageTakenBy(head.index,player.currentSpell);
+        damage((damageTakenByTorso + damageTakenByHead)/2.0f);
     }
 
     public void death()

@@ -4,12 +4,15 @@ using System.Collections;
 public class Head : MonoBehaviour
 {
     public GameObject[] heads;
+    public int index = 0;
 
     private GameObject currentHead;
-	private int index;
+    private Entity entity;
+
     void Start()
     {
         currentHead = null;
+        entity = transform.parent.gameObject.GetComponent<Entity>();
     }
 
     public void spawnRandomHead()

@@ -1,17 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EntitySpawner : MonoBehaviour {
-	
-	public Entity entity;
+public class EntitySpawner : MonoBehaviour
+{
+    public Entity entity;
 
-	void Update () {
-		if(Input.GetKeyDown(KeyCode.X)){
-			spawnEntity();
-		}
+	void Start(){
+		spawnEntity();
 	}
 
-	public void spawnEntity(){
-		entity.respawn();
-	}
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            spawnEntity();
+        }
+    }
+
+    public void spawnEntity()
+    {
+        entity.respawn();
+    }
 }

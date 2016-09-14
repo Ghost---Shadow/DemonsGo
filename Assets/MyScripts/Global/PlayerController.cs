@@ -5,8 +5,10 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public Slider healthBar;
-
     private float health;
+
+    public int currentSpell;
+
     public void damage(float amt)
     {
         health -= amt;
@@ -16,14 +18,15 @@ public class PlayerController : MonoBehaviour
             death();
     }
 
-    void Update()
-    {
-    }
-
     public void death()
     {
         Debug.Log("Player death");
         health = healthBar.maxValue;
         healthBar.value = healthBar.maxValue;
+    }
+
+    public void setCurrentSpell(int spell){
+        Debug.Log(spell);
+        currentSpell = spell;
     }
 }

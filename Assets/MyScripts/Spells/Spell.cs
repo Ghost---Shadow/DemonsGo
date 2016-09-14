@@ -8,8 +8,8 @@ public class Spell : MonoBehaviour {
 	
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
+	// Placeholder
+	public static float getDamageTakenBy(int type,int spell){
+		return type == spell ? .1f : .2f;
 	}
 }

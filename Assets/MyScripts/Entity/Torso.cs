@@ -7,19 +7,21 @@ public class Torso : MonoBehaviour
     public GameObject[] torsos;
     public float[] damages;
     public float[] counterWindow;
+
+    public int index;
+
     public Text _attackDirection;
-    public PlayerController player;
 
     private GameObject currentTorso;
-    private int index;
-
     private SwipeDetector.SwipeDirection attackDirection;
     private SwipeDetector.SwipeDirection defendDirection;
     private bool hasDefended;
+    private Entity entity;
 
     void Start()
     {
         currentTorso = null;
+        entity = transform.parent.gameObject.GetComponent<Entity>();
     }
 
     void OnEnable()
@@ -56,14 +58,15 @@ public class Torso : MonoBehaviour
     {
         hasDefended = false;
         yield return new WaitForSeconds(counterWindow[index]);
-        _attackDirection.text = "";
+
         if (attackDirection != defendDirection || !hasDefended)
         {
-            player.damage(damages[index]);
+            entity.player.damage(damages[index]);
+            _attackDirection.text = "Swipe " + attackDirection + " to defend";
         }
         else
         {
-            _attackDirection.text = "Good job";
+            _attackDirection.text = "Good job! Now tap to attack";
         }
     }
 
@@ -72,5 +75,10 @@ public class Torso : MonoBehaviour
         //Debug.Log(attackDirection + " " + defendDirection);
         defendDirection = direction;
         hasDefended = true;
+    }
+
+    public bool isStaggered()
+    {
+        return hasDefended;
     }
 }

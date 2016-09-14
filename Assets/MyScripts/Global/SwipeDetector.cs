@@ -12,8 +12,14 @@ public class SwipeDetector : MonoBehaviour
         Left
     }
 
+    public float minimumSwipeLength = 20f;
+
     public delegate void SwipeAction(SwipeDirection direction);
     public static event SwipeAction Swipe;
+
+    public delegate void ClickAction();
+    public static event ClickAction Click;
+
     private bool swiping = false;
     private bool eventSent = false;
     private Vector2 lastPosition = Vector2.zero;
@@ -67,8 +73,12 @@ public class SwipeDetector : MonoBehaviour
             }
         }
         else if (Input.GetMouseButtonUp(0))
-        {
+        {            
             Vector2 direction = (Vector2)Input.mousePosition - lastPosition;
+            if (direction.sqrMagnitude < minimumSwipeLength){
+                Click();
+                return;
+            }
             if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
             {
                 if (direction.x > 0)
