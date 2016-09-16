@@ -17,51 +17,10 @@ public class SwipeDetector : MonoBehaviour
     public delegate void SwipeAction(SwipeDirection direction);
     public static event SwipeAction Swipe;
 
-    public delegate void ClickAction();
-    public static event ClickAction Click;
-
     private bool swiping = false;
     private bool eventSent = false;
     private Vector2 lastPosition = Vector2.zero;
-    /*
-    void Update () {
-        if (Input.touchCount == 0)
-            return;
-            Debug.Log("Here");
-        if (Input.GetTouch(0).deltaPosition.sqrMagnitude != 0){
-            if (swiping == false){
-                swiping = true;
-                lastPosition = Input.GetTouch(0).position;
-                return;
-            }
-            else{
-                if (!eventSent) {
-                    if (Swipe != null) {
-                        Vector2 direction = Input.GetTouch(0).position - lastPosition;
-                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)){
-                            if (direction.x > 0)
-                                Swipe(SwipeDirection.Right);
-                            else
-                                Swipe(SwipeDirection.Left);
-                        }
-                        else{
-                            if (direction.y > 0)
-                                Swipe(SwipeDirection.Up);
-                            else
-                                Swipe(SwipeDirection.Down);
-                        }
-
-                        eventSent = true;
-                    }
-                }
-            }
-        }
-        else{
-            swiping = false;
-            eventSent = false;
-        }
-    }*/
-
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -76,7 +35,6 @@ public class SwipeDetector : MonoBehaviour
         {            
             Vector2 direction = (Vector2)Input.mousePosition - lastPosition;
             if (direction.sqrMagnitude < minimumSwipeLength){
-                Click();
                 return;
             }
             if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))

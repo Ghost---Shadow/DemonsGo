@@ -16,14 +16,21 @@ public class Entity : MonoBehaviour
     private float health;
     private bool isDead = false;
 
+    public delegate void ClickAction();
+    public static event ClickAction Click;
+
     void OnEnable()
     {
-        SwipeDetector.Click += hit;
+        Click += hit;
     }
 
     void OnDisable()
     {
-        SwipeDetector.Click -= hit;
+        Click -= hit;
+    }
+
+    public void clickedUpon(){
+        Click();
     }
 
     public void respawn()
@@ -57,9 +64,9 @@ public class Entity : MonoBehaviour
 
     public void hit()
     {
-        float damageTakenByTorso = Spell.getDamageTakenBy(torso.index,player.currentSpell);
-        float damageTakenByHead = Spell.getDamageTakenBy(head.index,player.currentSpell);
-        damage((damageTakenByTorso + damageTakenByHead)/2.0f);
+        float damageTakenByTorso = Spell.getDamageTakenBy(torso.index, player.currentSpell);
+        float damageTakenByHead = Spell.getDamageTakenBy(head.index, player.currentSpell);
+        damage((damageTakenByTorso + damageTakenByHead) / 2.0f);
     }
 
     public void death()
