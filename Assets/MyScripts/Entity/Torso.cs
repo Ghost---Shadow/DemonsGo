@@ -7,6 +7,7 @@ public class Torso : MonoBehaviour
     public GameObject[] torsos;
     public float[] damages;
     public float[] counterWindow;
+    public Spell spellHandle;
 
     public int index;
 
@@ -42,7 +43,8 @@ public class Torso : MonoBehaviour
             DestroyImmediate(currentTorso);
         }
         index = (int)Random.Range(0, torsos.Length);
-        currentTorso = (GameObject)Instantiate(torsos[index], transform.position, Quaternion.identity);
+        spellHandle.currentSpell = index;
+        currentTorso = (GameObject)Instantiate(torsos[index], transform.position, torsos[index].transform.rotation);
         currentTorso.transform.parent = this.transform;
     }
 
@@ -50,6 +52,8 @@ public class Torso : MonoBehaviour
     {
         attackDirection = (SwipeDetector.SwipeDirection)((int)Random.Range(0, 4));
         //Debug.Log("Attacking from "+direction);
+        spellHandle.shoot();
+
         _attackDirection.text = "Attacking from " + attackDirection;
         StartCoroutine("waitForCounter");
     }

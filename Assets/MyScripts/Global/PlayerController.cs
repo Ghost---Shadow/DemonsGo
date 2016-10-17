@@ -5,9 +5,10 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public Slider healthBar;
-    private float health;
-
+    public Spell spellHandle;
     public int currentSpell;
+
+    private float health;   
 
     public void damage(float amt)
     {
@@ -26,7 +27,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void setCurrentSpell(int spell){
-        Debug.Log(spell);
+        //Debug.Log(spell);
         currentSpell = spell;
+        spellHandle.currentSpell = spell;
     }
 }

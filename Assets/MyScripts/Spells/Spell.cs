@@ -4,17 +4,20 @@ using System.Collections;
 public class Spell : MonoBehaviour
 {
 	public ParticleSystem[] spells;
-	public PlayerController player;
+    public bool isPlayerControlled = false;
 	public float spellLength = 1.0f;
+    public int currentSpell = 0;
 
     void OnEnable()
     {
-        Entity.Click += shoot;
+        if(isPlayerControlled)
+            Entity.Click += shoot;
     }
 
     void OnDisable()
     {
-        Entity.Click -= shoot;
+        if(isPlayerControlled)
+            Entity.Click -= shoot;
     }
 
 	public void shoot(){
@@ -22,9 +25,9 @@ public class Spell : MonoBehaviour
 	}
 
 	IEnumerator playParticles(){
-		spells[player.currentSpell].Play();
+		spells[currentSpell].Play();
 		yield return new WaitForSeconds(spellLength);
-		spells[player.currentSpell].Stop();
+		spells[currentSpell].Stop();
 	}
 
     // Placeholder
